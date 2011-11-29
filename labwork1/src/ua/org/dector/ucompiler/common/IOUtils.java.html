@@ -1,0 +1,50 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>ucompiler<font color="#990000">.</font>common<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.</font>BufferedReader<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.</font>FileNotFoundException<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.</font>FileReader<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>ArrayList<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>List<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>Scanner<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * Some common method, used as usefull utils</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">IOUtils</font> <font color="#FF0000">{</font>
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Returns list of lines, which selected text file contains.</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> filename full or relative path to file to load</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> list of lines in file</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#008080">List&lt;String&gt;</font> <b><font color="#000000">loadFile</font></b><font color="#990000">(</font><font color="#008080">String</font> filename<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#008080">List&lt;String&gt;</font> queriesList <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> ArrayList<font color="#990000">&lt;</font>String<font color="#990000">&gt;();</font>
+
+        <font color="#008080">Scanner</font> in <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+        <b><font color="#0000FF">try</font></b> <font color="#FF0000">{</font>
+            in <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Scanner</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">BufferedReader</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">FileReader</font></b><font color="#990000">(</font>filename<font color="#990000">)));</font>
+
+            <font color="#008080">String</font> nextQueryLine<font color="#990000">;</font>
+            <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">hasNext</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+                nextQueryLine <font color="#990000">=</font> in<font color="#990000">.</font><b><font color="#000000">nextLine</font></b><font color="#990000">();</font>
+                queriesList<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>nextQueryLine<font color="#990000">);</font>
+            <font color="#FF0000">}</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">catch</font></b> <font color="#990000">(</font><font color="#008080">FileNotFoundException</font> e<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <i><font color="#9A1900">//todo: I'm so trivial exceptions. Please, process me!</font></i>
+            e<font color="#990000">.</font><b><font color="#000000">printStackTrace</font></b><font color="#990000">();</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">finally</font></b> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>in <font color="#990000">!=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)</font> <font color="#FF0000">{</font>
+                in<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">();</font>
+            <font color="#FF0000">}</font>
+        <font color="#FF0000">}</font>
+
+        <b><font color="#0000FF">return</font></b> queriesList<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

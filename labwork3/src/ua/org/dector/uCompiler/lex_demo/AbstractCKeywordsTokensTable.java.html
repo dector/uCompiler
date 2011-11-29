@@ -1,0 +1,43 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>Token<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>TokenType<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>TokensTable<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>LinkedHashMap<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>Map<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector (</font></i><u><font color="#0000FF">dector9@gmail.com</font></u><i><font color="#9A1900">)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">AbstractCKeywordsTokensTable</font> <b><font color="#0000FF">implements</font></b> TokensTable <font color="#FF0000">{</font>
+    <b><font color="#0000FF">private</font></b> <b><font color="#0000FF">static</font></b> <font color="#008080">Map&lt;String, Token&gt;</font> keywordsMap<font color="#990000">;</font>
+
+    <b><font color="#0000FF">static</font></b> <font color="#FF0000">{</font>
+        keywordsMap <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedHashMap<font color="#990000">&lt;</font>String<font color="#990000">,</font> Token<font color="#990000">&gt;();</font>
+
+        <b><font color="#000000">addToken</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>IF<font color="#990000">,</font> <font color="#FF0000">"if"</font><font color="#990000">));</font>
+        <b><font color="#000000">addToken</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>DO<font color="#990000">,</font> <font color="#FF0000">"do"</font><font color="#990000">));</font>
+        <b><font color="#000000">addToken</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>RETURN<font color="#990000">,</font> <font color="#FF0000">"return"</font><font color="#990000">));</font>
+        <b><font color="#000000">addToken</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>WHILE<font color="#990000">,</font> <font color="#FF0000">"while"</font><font color="#990000">));</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <b><font color="#000000">AbstractCKeywordsTokensTable</font></b><font color="#990000">()</font> <font color="#FF0000">{}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">hasToken</font></b><font color="#990000">(</font><font color="#008080">String</font> charGroup<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> keywordsMap<font color="#990000">.</font><b><font color="#000000">containsKey</font></b><font color="#990000">(</font>charGroup<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">Token</font> <b><font color="#000000">getToken</font></b><font color="#990000">(</font><font color="#008080">String</font> charGroup<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> keywordsMap<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>charGroup<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <b><font color="#0000FF">static</font></b> <font color="#009900">void</font> <b><font color="#000000">addToken</font></b><font color="#990000">(</font><font color="#008080">Token</font> token<font color="#990000">)</font> <font color="#FF0000">{</font>
+        keywordsMap<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>token<font color="#990000">.</font><b><font color="#000000">getValue</font></b><font color="#990000">(),</font> token<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

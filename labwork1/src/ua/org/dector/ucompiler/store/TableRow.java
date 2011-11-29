@@ -58,10 +58,23 @@ public class TableRow {
         return new TableRow(new HashMap.SimpleEntry<Long, Map.Entry<String, Double>>(id, entry));
     }
 
+    /**
+     *Create new representation of row record
+     *
+     * @param id    record ID
+     * @param name  NAME value
+     * @param value VALUE value
+     * @return  new instance of row representation
+     */
     public static TableRow newInstance(Long id, String name, Double value) {
         return newInstance(id, new HashMap.SimpleEntry<String, Double>(name, value));
     }
 
+    /**
+     * Generate String value of this record
+     *
+     * @return string row representation
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

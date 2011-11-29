@@ -1,6 +1,10 @@
 package ua.org.dector.ucompiler.queries;
 
 import ua.org.dector.ucompiler.common.IOUtils;
+import ua.org.dector.ucompiler.exceptions.IsNotAQueryException;
+import ua.org.dector.ucompiler.exceptions.QueryParseException;
+import ua.org.dector.ucompiler.shell.DataHolder;
+import ua.org.dector.ucompiler.store.TableWrapper;
 
 import java.util.List;
 
@@ -8,16 +12,18 @@ import java.util.List;
  * @author dector
  */
 public class QueryWrapper {
-    public static boolean executeQuery(String queryString) {
+    public static String executeQuery(String queryString) {
+        String resultString = null;
         boolean success = false;
 
-        //todo: I'm debug information. Delete me completely!
         System.out.println("executeQuery() requested: \"" + queryString + "\"");
 
         Query query;
-        if (isCorrectQuery(queryString)) {
+        try {
             query = QueryParser.parseQuery(queryString);
-            success = true;
+            System.out.println("Parsed as query: " + query);
+
+            TableWrapper tw = DataHolder.getInstance().getTableWrapper();
 
             QueryType queryType = query.getType();
 
@@ -25,72 +31,45 @@ public class QueryWrapper {
                 case SELECT: {
 
                 }; break;
-            }
 
-            //todo: I'm debug information. Delete me completely!
-            System.out.println("Parsed as query: " + query);
+                case DELETE: {
+                    success = tw.delete(Long.parseLong(query.getValue()));
+                    resultString = "SUCCESS :: Query " + queryString + " executed";
+                }; break;
+
+                case INSERT: {
+                    resultString = "SUCCESS :: Query " + queryString + " executed";
+                }; break;
+
+                case UPDATE: {
+                    resultString = "SUCCESS :: Query " + queryString + " executed";
+                }; break;
+            }
+        } catch (QueryParseException e) {
+            resultString = "FAIL :: Query " + queryString + " is incorrect";
+        } catch (IsNotAQueryException e) {
+            System.out.println(queryString + " is not query");
         }
 
-
-        return success;
-
-
-//        QueryType queryType = query.getCommand();
-//        switch (queryQueryType) {
-//            case select: {
-//
-//            }; break;
-//            case delete: {
-//
-//            }; break;
-//            case insert: {
-//
-//            }; break;
-//            case update: {
-//
-//            }; break;
-//        }
+        return resultString;
     }
 
     public static void executeQueries(List<String> queriesList) {
-        //todo: I'm debug information. Delete me completely!
         System.out.println("Execute queries list requested: " + queriesList);
 
-        //todo: I'm feeling so empty. Implement me!
+        String queryResult;
         for (String query : queriesList) {
-            executeQuery(query);
+            queryResult = executeQuery(query);
+            if (queryResult != null) {
+                System.out.println(queryResult);
+            }
         }
     }
 
     public static void executeQueriesFromFile(String filename) {
-        //todo: I'm debug information. Delete me completely!
         System.out.println("Execute queries file requested: " + filename);
 
-        //todo: I'm feeling so empty. Implement me!
         List<String> fileLines = IOUtils.loadFile(filename);
         executeQueries(fileLines);
-    }
-
-    private static boolean isCorrectQuery(String query) {
-        boolean correct = false;
-
-        if (isAQuery(query)) {
-            correct = true;
-        }
-
-        return correct;
-    }
-
-    private static boolean isAQuery(String query) {
-        boolean correct = false;
-
-        query = query.trim();
-
-        if (! (query.indexOf(QuerySyntax.COMMENT_CHAR) == 0    // Just comment line?
-                || query.isEmpty())) {                          // Just empty line?
-            correct = true;
-        }
-
-        return correct;
     }
 }

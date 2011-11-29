@@ -32,7 +32,7 @@ public class IOUtils {
                 queriesList.add(nextQueryLine);
             }
         } catch (FileNotFoundException e) {
-            //todo: I'm so trivial exception. Please, process me!
+            //todo: I'm so trivial exceptions. Please, process me!
             e.printStackTrace();
         } finally {
             if (in != null) {

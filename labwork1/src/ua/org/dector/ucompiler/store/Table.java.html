@@ -1,0 +1,168 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>ucompiler<font color="#990000">.</font>store<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.*;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * Main structure storage. Use TableWrapper</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * DEV NOTES:</font></i>
+<i><font color="#9A1900"> * Some rules for working with this class:</font></i>
+<i><font color="#9A1900"> * 1) This is unsecured data structure interface with a LITTLE of automatic</font></i>
+<i><font color="#9A1900"> * 2) ALL data processing types can be performed ONLY if you know row's ID</font></i>
+<i><font color="#9A1900"> * 3) ALL algorythmic operations (sophisticated selection, searching etc.) are in the TableWrapper</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">Table</font> <font color="#FF0000">{</font>
+    <i><font color="#9A1900">// Set of rows</font></i>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">Map&lt;Long, Map.Entry&lt;String, Double&gt;&gt;</font> rows<font color="#990000">;</font>
+
+    <b><font color="#000000">Table</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#000000">reinitRows</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Insert new record into table</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id    ID value of this record</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> name  NAME value of this record</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> value VALUE value of this record</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">true</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b><i><font color="#9A1900"> if record was inserted, else </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">false</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">,</font> <font color="#008080">String</font> name<font color="#990000">,</font> <font color="#009900">double</font> value<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#009900">boolean</font> inserted <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(!</font> rows<font color="#990000">.</font><b><font color="#000000">containsKey</font></b><font color="#990000">(</font>id<font color="#990000">))</font> <font color="#FF0000">{</font>
+            Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> entry <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;(</font>name<font color="#990000">,</font> value<font color="#990000">);</font>
+            rows<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>id<font color="#990000">,</font> entry<font color="#990000">);</font>
+            inserted <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+
+        <b><font color="#0000FF">return</font></b> inserted<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Remove record from table</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id    record ID to remove</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">true</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b><i><font color="#9A1900"> if record was removed, else </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">false</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">deleteRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#009900">boolean</font> deleted <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>rows<font color="#990000">.</font><b><font color="#000000">containsKey</font></b><font color="#990000">(</font>id<font color="#990000">))</font> <font color="#FF0000">{</font>
+            rows<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>id<font color="#990000">);</font>
+            deleted <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+
+        <b><font color="#0000FF">return</font></b> deleted<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Fully modify row</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id        row ID to modify</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newId     new row ID to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newName   new row NAME to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newValue  new row VALUE to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">true</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b><i><font color="#9A1900"> is row was modified, else </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">false</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">,</font> <font color="#009900">long</font> newId<font color="#990000">,</font> <font color="#008080">String</font> newName<font color="#990000">,</font> <font color="#009900">double</font> newValue<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#009900">boolean</font> updated <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>rows<font color="#990000">.</font><b><font color="#000000">containsKey</font></b><font color="#990000">(</font>id<font color="#990000">))</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>id <font color="#990000">!=</font> newId<font color="#990000">)</font> <font color="#FF0000">{</font>
+                Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> newEntry <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;(</font>newName<font color="#990000">,</font> newValue<font color="#990000">);</font>
+                rows<font color="#990000">.</font><b><font color="#000000">remove</font></b><font color="#990000">(</font>id<font color="#990000">);</font>
+                rows<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>newId<font color="#990000">,</font> newEntry<font color="#990000">);</font>
+            <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+                Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> entry <font color="#990000">=</font> rows<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>id<font color="#990000">);</font>
+
+                <b><font color="#0000FF">if</font></b> <font color="#990000">(!</font> newName<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>entry<font color="#990000">.</font><b><font color="#000000">getKey</font></b><font color="#990000">()))</font> <font color="#FF0000">{</font>
+                    Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> newEntry <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;(</font>newName<font color="#990000">,</font> newValue<font color="#990000">);</font>
+                    rows<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font>id<font color="#990000">,</font> newEntry<font color="#990000">);</font>
+                <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>newValue <font color="#990000">!=</font> entry<font color="#990000">.</font><b><font color="#000000">getValue</font></b><font color="#990000">())</font><font color="#FF0000">{</font>
+                    entry<font color="#990000">.</font><b><font color="#000000">setValue</font></b><font color="#990000">(</font>newValue<font color="#990000">);</font>
+                <font color="#FF0000">}</font>
+            <font color="#FF0000">}</font>
+
+            updated <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+
+        <b><font color="#0000FF">return</font></b> updated<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Modify row data</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id        row ID to modify</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newName   new row NAME to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newValue  new row VALUE to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">true</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b><i><font color="#9A1900"> is row was modified, else </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">false</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">,</font> <font color="#008080">String</font> newName<font color="#990000">,</font> <font color="#009900">double</font> newValue<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font>id<font color="#990000">,</font> id<font color="#990000">,</font> newName<font color="#990000">,</font> newValue<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Modify row name</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id        row ID to modify</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newName   new row NAME to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">true</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b><i><font color="#9A1900"> is row was modified, else </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">false</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">,</font> <font color="#008080">String</font> newName<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font>id<font color="#990000">,</font> newName<font color="#990000">,</font> <font color="#990000">(</font><b><font color="#000000">selectRow</font></b><font color="#990000">(</font>id<font color="#990000">)</font> <font color="#990000">!=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)?</font><b><font color="#000000">selectRow</font></b><font color="#990000">(</font>id<font color="#990000">).</font><b><font color="#000000">getValue</font></b><font color="#990000">():</font>0d<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Modify row value</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id        row ID to modify</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> newValue  new row VALUE to set</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">true</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b><i><font color="#9A1900"> is row was modified, else </font></i><b><font color="#0000FF">&lt;b&gt;</font></b><i><font color="#9A1900">false</font></i><b><font color="#0000FF">&lt;/b&gt;</font></b>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">,</font> <font color="#009900">double</font> newValue<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> <b><font color="#000000">updateRow</font></b><font color="#990000">(</font>id<font color="#990000">,</font> <font color="#990000">(</font><b><font color="#000000">selectRow</font></b><font color="#990000">(</font>id<font color="#990000">)</font> <font color="#990000">!=</font> <b><font color="#0000FF">null</font></b><font color="#990000">)?</font><b><font color="#000000">selectRow</font></b><font color="#990000">(</font>id<font color="#990000">).</font><b><font color="#000000">getKey</font></b><font color="#990000">():</font><b><font color="#0000FF">null</font></b><font color="#990000">,</font> newValue<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Returns pair of </font></i><b><font color="#0000FF">&lt;NAME</font></b>, <font color="#009900">VALUE</font><b><font color="#0000FF">&gt;</font></b><i><font color="#9A1900"> selected by ID</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id row ID to select</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> NAME and VALUE pair</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> <b><font color="#000000">selectRow</font></b><font color="#990000">(</font><font color="#009900">long</font> id<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> rows<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>id<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Count number of rows in table</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> number of rows</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">long</font> <b><font color="#000000">countRows</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> rows<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Returns set of all ID's in table</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> set of all ID values</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#008080">Set&lt;Long&gt;</font> <b><font color="#000000">getRowIds</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> rows<font color="#990000">.</font><b><font color="#000000">keySet</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Init table as structure (will delete all records)</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <font color="#009900">void</font> <b><font color="#000000">reinitRows</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        rows <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">&lt;</font>Long<font color="#990000">,</font> Map<font color="#990000">.</font>Entry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;&gt;();</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

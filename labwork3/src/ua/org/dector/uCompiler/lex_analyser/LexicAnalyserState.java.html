@@ -1,0 +1,136 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>errors<font color="#990000">.</font>LexicParseError<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">.</font>Position<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>LinkedList<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>List<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector (</font></i><u><font color="#0000FF">dector9@gmail.com</font></u><i><font color="#9A1900">)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">LexicAnalyserState</font> <font color="#FF0000">{</font>
+    <b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> finished<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> success<font color="#990000">;</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">int</font> inputBuffer<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#009900">boolean</font> bufferProcessed<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">StringBuilder</font> tokenAccumulator<font color="#990000">;</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#008080">Position</font> currentPosition<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">LexicParseError</font> error<font color="#990000">;</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">int</font> positionIndex<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">List&lt;Token&gt;</font> result<font color="#990000">;</font>
+
+    <b><font color="#0000FF">public</font></b> <b><font color="#000000">LexicAnalyserState</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        finished <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+        success <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+
+        bufferProcessed <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+        positionIndex <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
+
+        currentPosition <font color="#990000">=</font> Position<font color="#990000">.</font>START<font color="#990000">;</font>
+
+        tokenAccumulator <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">StringBuilder</font></b><font color="#990000">();</font>
+
+        result <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedList<font color="#990000">&lt;</font>Token<font color="#990000">&gt;();</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">isFinished</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> finished<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setFinished</font></b><font color="#990000">(</font><font color="#009900">boolean</font> finished<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>finished <font color="#990000">=</font> finished<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">isSuccess</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> success<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setSuccess</font></b><font color="#990000">(</font><font color="#009900">boolean</font> success<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>success <font color="#990000">=</font> success<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">Position</font> <b><font color="#000000">getCurrentPosition</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> currentPosition<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setCurrentPosition</font></b><font color="#990000">(</font><font color="#008080">Position</font> currentPosition<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>currentPosition <font color="#990000">=</font> currentPosition<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">LexicParseError</font> <b><font color="#000000">getError</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> error<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setError</font></b><font color="#990000">(</font><font color="#008080">LexicParseError</font> error<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>error <font color="#990000">=</font> error<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">int</font> <b><font color="#000000">getPositionIndex</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> positionIndex<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setPositionIndex</font></b><font color="#990000">(</font><font color="#009900">int</font> positionIndex<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>positionIndex <font color="#990000">=</font> positionIndex<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">List&lt;Token&gt;</font> <b><font color="#000000">getResult</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> result<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">int</font> <b><font color="#000000">getInputBuffer</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> inputBuffer<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setInputBuffer</font></b><font color="#990000">(</font><font color="#009900">int</font> inputBuffer<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>inputBuffer <font color="#990000">=</font> inputBuffer<font color="#990000">;</font>
+        <b><font color="#000000">setBufferProcessed</font></b><font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">isBufferProcessed</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> bufferProcessed<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setBufferProcessed</font></b><font color="#990000">(</font><font color="#009900">boolean</font> bufferProcessed<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>bufferProcessed <font color="#990000">=</font> bufferProcessed<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">StringBuilder</font> <b><font color="#000000">getTokenAccumulator</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> tokenAccumulator<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">accumulate</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        tokenAccumulator<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">((</font><font color="#009900">char</font><font color="#990000">)</font> inputBuffer<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">String</font> <b><font color="#000000">getAccumulator</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> tokenAccumulator<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">String</font> <b><font color="#000000">clearAccumulator</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> returnString <font color="#990000">=</font> tokenAccumulator<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">();</font>
+        tokenAccumulator <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">StringBuilder</font></b><font color="#990000">();</font>
+
+        <b><font color="#0000FF">return</font></b> returnString<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setTokenAccumulator</font></b><font color="#990000">(</font><font color="#008080">StringBuilder</font> tokenAccumulator<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>tokenAccumulator <font color="#990000">=</font> tokenAccumulator<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">incrementPositionIndex</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        positionIndex<font color="#990000">++;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">addResult</font></b><font color="#990000">(</font><font color="#008080">Token</font> t<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> result<font color="#990000">.</font><b><font color="#000000">add</font></b><font color="#990000">(</font>t<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

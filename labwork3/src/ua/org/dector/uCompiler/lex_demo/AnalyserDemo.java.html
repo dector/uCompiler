@@ -1,0 +1,60 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.*;</font>
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>errors<font color="#990000">.</font>LexicParseError<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.</font>BufferedInputStream<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.</font>ByteArrayInputStream<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>io<font color="#990000">.</font>InputStream<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>List<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector (</font></i><u><font color="#0000FF">dector9@gmail.com</font></u><i><font color="#9A1900">)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">AnalyserDemo</font> <font color="#FF0000">{</font>
+    <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#009900">void</font> <b><font color="#000000">main</font></b><font color="#990000">(</font>String<font color="#990000">[]</font> args<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> expression <font color="#990000">=</font>
+                <font color="#FF0000">"do"</font> <font color="#990000">+</font>
+                <font color="#FF0000">"{"</font> <font color="#990000">+</font>
+                    <font color="#FF0000">"--n;"</font> <font color="#990000">+</font>
+                    <font color="#FF0000">"if(b==a[n])"</font> <font color="#990000">+</font>
+                        <font color="#FF0000">"return n;"</font> <font color="#990000">+</font>
+                <font color="#FF0000">"}"</font> <font color="#990000">+</font>
+                <font color="#FF0000">"while (n);"</font> <font color="#990000">+</font>
+                <font color="#FF0000">"return 0;"</font><font color="#990000">;</font>
+
+        <font color="#008080">InputStream</font> in <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">BufferedInputStream</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">ByteArrayInputStream</font></b><font color="#990000">(</font>expression<font color="#990000">.</font><b><font color="#000000">getBytes</font></b><font color="#990000">()));</font>
+
+        <font color="#008080">SymbolFactory</font> symbolFactory <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">AbstractCSymbolFactory</font></b><font color="#990000">();</font>
+        <font color="#008080">TokensTable</font> keywordsTable <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">AbstractCKeywordsTokensTable</font></b><font color="#990000">();</font>
+        <font color="#008080">TokensTable</font> operatorsTable <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">AbstractCOperatorsTokensTable</font></b><font color="#990000">();</font>
+        <font color="#008080">TokensTable</font> delimitersTable <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">AbstractCDelimitersTokensTable</font></b><font color="#990000">();</font>
+
+        <font color="#008080">TablesHolder</font> holder <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">AbstractCTablesHolder</font></b><font color="#990000">(</font>keywordsTable<font color="#990000">,</font> operatorsTable<font color="#990000">,</font> delimitersTable<font color="#990000">);</font>
+        <font color="#008080">PositionsProcessor</font> pp <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">AbstractCPositionsProcessor</font></b><font color="#990000">(</font>holder<font color="#990000">);</font>
+
+        <font color="#008080">LexicAnalyser</font> la <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">LexicAnalyser</font></b><font color="#990000">(</font>pp<font color="#990000">,</font> symbolFactory<font color="#990000">);</font>
+
+        la<font color="#990000">.</font><b><font color="#000000">parse</font></b><font color="#990000">(</font>in<font color="#990000">);</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>la<font color="#990000">.</font><b><font color="#000000">isSuccess</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+            <i><font color="#9A1900">// Print all tokens</font></i>
+            <font color="#008080">List&lt;Token&gt;</font> tokens <font color="#990000">=</font> la<font color="#990000">.</font><b><font color="#000000">getResult</font></b><font color="#990000">();</font>
+
+            <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#008080">Token</font> token <font color="#990000">:</font> tokens<font color="#990000">)</font> <font color="#FF0000">{</font>
+                System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>token<font color="#990000">);</font>
+            <font color="#FF0000">}</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+            <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> la<font color="#990000">.</font><b><font color="#000000">getError</font></b><font color="#990000">();</font>
+
+            System<font color="#990000">.</font>out<font color="#990000">.</font><b><font color="#000000">println</font></b><font color="#990000">(</font>error<font color="#990000">.</font><b><font color="#000000">getName</font></b><font color="#990000">()</font> <font color="#990000">+</font> <font color="#FF0000">": "</font> <font color="#990000">+</font>
+                    error<font color="#990000">.</font><b><font color="#000000">getMessage</font></b><font color="#990000">()</font> <font color="#990000">+</font> <font color="#FF0000">" at "</font> <font color="#990000">+</font> error<font color="#990000">.</font><b><font color="#000000">getPosition</font></b><font color="#990000">());</font>
+        <font color="#FF0000">}</font>
+
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

@@ -26,14 +26,34 @@ public class TableWrapper {
         table = new Table();
     }
 
+    /**
+     * Insert new record to table
+     *
+     * @param id    record's ID value
+     * @param name  NAME value
+     * @param value VALUE value
+     * @return  <b>true</b> if record was saved, <b>false</b> else
+     */
     public boolean insert(long id, String name, double value) {
         return table.insertRow(id, name, value);
     }
 
+    /**
+     * Delete record by id from table
+     *
+     * @param id record's ID to delete
+     * @return <b>true</b> if record was deleted, <b>false</b> else
+     */
     public boolean delete(long id) {
         return table.deleteRow(id);
     }
 
+    /**
+     * Select record from table by id
+     *
+     * @param id record's ID to select
+     * @return  existing table row, <b>null</b> if not exists
+     */
     public TableRow select(long id) {
         Map.Entry<String, Double> entry = table.selectRow(id);
 
@@ -44,26 +64,43 @@ public class TableWrapper {
         }
     }
 
+    /**
+     * Select record from table by name
+     *
+     * @param name  record's NAME search value
+     * @param completeAssertion set <b>true</b> to search for records, which contains full word
+     * @return list of finded records
+     */
     public List<TableRow> select(String name, boolean completeAssertion) {
         List<TableRow> rowList = new ArrayList<TableRow>();
 
-        String seekName = new String(name);
-
-        while (seekName.length() != 0 && rowList.size() == 0) {
-            for (long id : getIds(seekName, completeAssertion)) {
+        while (name.length() != 0 && rowList.size() == 0) {
+            for (long id : getIds(name, completeAssertion)) {
                 rowList.add(TableRow.newInstance(id, table.selectRow(id)));
             }
 
-            seekName = seekName.substring(0, seekName.length()-1);
+            name = name.substring(0, name.length()-1);
         }
 
         return rowList;
     }
 
+    /**
+     * Returns set of all ID values, which are stored in table
+     *
+     * @return all ID values set
+     */
     private Set<Long> getIds() {
         return table.getRowIds();
     }
 
+    /**
+     * Returns all records ID values from table finded name
+     *
+     * @param name record's NAME search value
+     * @param completeAssertion set <b>true</b> to search for records, which contains full word
+     * @return ID values of finded records
+     */
     private List<Long> getIds(String name, boolean completeAssertion) {
         List<Long> idList = new ArrayList<Long>();
 
@@ -85,21 +122,140 @@ public class TableWrapper {
         return idList;
     }
 
+    /**
+     * Update record's data
+     *
+     * @param id        record's ID
+     * @param newId     new ID value for this record
+     * @param newName   new NAME value for this record
+     * @param newValue  new VALUE value for this record
+     * @return <b>true</b> if update was saved, else <b>false</b>
+     */
     public boolean update(long id, long newId, String newName, double newValue) {
         return table.updateRow(id, newId, newName, newValue);
     }
 
+    /**
+     * Update record's data
+     *
+     * @param id        record's ID
+     * @param newName   new NAME value for this record
+     * @param newValue  new VALUE value for this record
+     * @return <b>true</b> if update was saved, else <b>false</b>
+     */
     public boolean update(long id, String newName, double newValue) {
         return table.updateRow(id, newName, newValue);
     }
 
+    /**
+     * Update record's data
+     *
+     * @param id        record's ID
+     * @param newName   new NAME value for this record
+     * @return <b>true</b> if update was saved, else <b>false</b>
+     */
     public boolean update(long id, String newName) {
         return table.updateRow(id, newName);
     }
 
+    /**
+     * Update record's data
+     *
+     * @param id        record's ID
+     * @param newValue  new VALUE value for this record
+     * @return <b>true</b> if update was saved, else <b>false</b>
+     */
     public boolean update(long id, double newValue) {
         return table.updateRow(id, newValue);
     }
+
+    /**
+     * Clear all table records
+     */
+    public void clear() {
+        table.reinitRows();
+    }
+
+//    /**
+//     * Sort table by ID value
+//     *
+//     * @param asc <b>true</b> for ascend sorting, <b>false</b> for descend sorting
+//     */
+//    public void sort(boolean asc) {
+//        if (asc) {
+//            sortAsc();
+//        } else {
+//            sortDesc();
+//        }
+//    }
+//
+//    /**
+//     * Sort table by ID value (ascending)
+//     */
+//    public void sortAsc() {
+//        sortAsc(0, table.countRows()-1);
+//    }
+//
+//    /**
+//     * Sort table by ID value (descending)
+//     */
+//    public void sortDesc() {
+//        sortDesc(0, table.countRows()-1);
+//    }
+//
+//    /**
+//     * Sort table by ID value (ascending)
+//     *
+//     * @param first first
+//     * @param last
+//     */
+//    private void sortAsc(long first, long last) {
+//        long i = first;
+//        long j = last;
+//        long base = (first + last)/2;
+//
+//        do {
+//            while (i < base) {
+//                i++;
+//            }
+//            while (base < j) {
+//                j--;
+//            }
+//
+//            if (j <= i) {
+//                swap(i, j);
+//                i++;
+//                j--;
+//            }
+//        } while (i <= j);
+//
+//        if (first < j) {
+//            sort(first, j);
+//        }
+//        if (i < last) {
+//            sort(i, last);
+//        }
+//
+//    }
+//
+//    /**
+//     * @param idOne
+//     * @param idTwo
+//     * @return
+//     */
+//    public boolean swap(long idOne, long idTwo) {
+//        boolean success = false;
+//
+//        TableRow firstRow = table.se(idOne);
+//        TableRow secondRow = select(idTwo);
+//
+//        success = update(idOne, idTwo, secondRow.getName(), secondRow.getValue());
+//        success &= update(idTwo, idOne, firstRow.getName(), firstRow.getValue());
+//
+//        return success;
+//    }
+
+
 
 //    public TableRow select(long id) throws RowsNotFoundError {
 //        return select(new DirectIdSelectionStrategy(), id);

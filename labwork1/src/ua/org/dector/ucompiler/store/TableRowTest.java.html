@@ -1,0 +1,47 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>ucompiler<font color="#990000">.</font>store<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> junit<font color="#990000">.</font>framework<font color="#990000">.</font>TestCase<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>HashMap<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>Map<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">TableRowTest</font> <b><font color="#0000FF">extends</font></b> TestCase <font color="#FF0000">{</font>
+    <font color="#008080">TableRow</font> tr<font color="#990000">;</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setUp</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        Map<font color="#990000">.</font><font color="#008080">Entry</font> entry <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;(</font><font color="#FF0000">"User 1"</font><font color="#990000">,</font> 10d<font color="#990000">);</font>
+        Map<font color="#990000">.</font><font color="#008080">Entry</font> higherEntry <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>Long<font color="#990000">,</font> Map<font color="#990000">.</font>Entry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;&gt;(</font><font color="#993399">5L</font><font color="#990000">,</font> entry<font color="#990000">);</font>
+        tr <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">TableRow</font></b><font color="#990000">(</font>higherEntry<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testGetId</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>tr<font color="#990000">.</font><b><font color="#000000">getId</font></b><font color="#990000">(),</font> <font color="#993399">5</font><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testGetName</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>tr<font color="#990000">.</font><b><font color="#000000">getName</font></b><font color="#990000">(),</font> <font color="#FF0000">"User 1"</font><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testGetValue</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>tr<font color="#990000">.</font><b><font color="#000000">getValue</font></b><font color="#990000">(),</font> 10d<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testNewInstance</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        Map<font color="#990000">.</font><font color="#008080">Entry</font> entry <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;(</font><font color="#FF0000">"User 1"</font><font color="#990000">,</font> 10d<font color="#990000">);</font>
+        <font color="#008080">TableRow</font> testRow <font color="#990000">=</font> TableRow<font color="#990000">.</font><b><font color="#000000">newInstance</font></b><font color="#990000">(</font><font color="#993399">5L</font><font color="#990000">,</font> entry<font color="#990000">);</font>
+
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>testRow<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">(),</font> tr<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">());</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">tearDown</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

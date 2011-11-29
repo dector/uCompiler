@@ -1,0 +1,24 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>ucompiler<font color="#990000">.</font>common<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> junit<font color="#990000">.</font>framework<font color="#990000">.</font>TestCase<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>ArrayList<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>List<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">IOUtilsTest</font> <b><font color="#0000FF">extends</font></b> TestCase <font color="#FF0000">{</font>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testLoadFile</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <font color="#008080">String</font> filename <font color="#990000">=</font> <font color="#FF0000">"test_files/load_test.usc"</font><font color="#990000">;</font>
+        <font color="#008080">List&lt;String&gt;</font> queriesList <font color="#990000">=</font> IOUtils<font color="#990000">.</font><b><font color="#000000">loadFile</font></b><font color="#990000">(</font>filename<font color="#990000">);</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>queriesList<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">),</font> <font color="#FF0000">";uShell commands (USC)"</font><font color="#990000">);</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>queriesList<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">),</font> <font color="#FF0000">""</font><font color="#990000">);</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>queriesList<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">),</font> <font color="#FF0000">"select by id = 0"</font><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

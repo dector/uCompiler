@@ -22,9 +22,7 @@ public class UShell implements Runnable {
     }
 
     public void run() {
-        //todo: I'm debug information. Delete me completely!
         System.out.println("uShell has been started");
-        //todo: I'm feeling so empty. Implement me!
     }
 
     private Map<String, String> parseOperations(String[] args) {
@@ -38,7 +36,6 @@ public class UShell implements Runnable {
             }
         }
 
-        //todo: I'm debug information. Delete me completely!
         System.out.println("Parsed operations: " + arguments);
 
         return arguments;
@@ -54,10 +51,5 @@ public class UShell implements Runnable {
 //                QueryWrapper.executeQueries(queriesList);
             } //else if ...
         }
-    }
-
-    private void executeQuery() {
-        //todo: I'm feeling so empty. Implement me!
-        System.out.println("executeQuery() called");
     }
 }

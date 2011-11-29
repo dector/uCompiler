@@ -1,0 +1,81 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>ucompiler<font color="#990000">.</font>store<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> junit<font color="#990000">.</font>framework<font color="#990000">.</font>TestCase<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>AbstractMap<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>HashMap<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>Map<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">TableTest</font> <b><font color="#0000FF">extends</font></b> TestCase <font color="#FF0000">{</font>
+    <font color="#008080">Table</font> table<font color="#990000">;</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setUp</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        table <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Table</font></b><font color="#990000">();</font>
+        table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#FF0000">"User 1"</font><font color="#990000">,</font> <font color="#993399">5.0</font><font color="#990000">);</font>
+        table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#FF0000">"User 2"</font><font color="#990000">,</font> <font color="#993399">2.0</font><font color="#990000">);</font>
+        table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">,</font> <font color="#FF0000">"Admin 1"</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">);</font>
+        table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">3</font><font color="#990000">,</font> <font color="#FF0000">"Admin 2"</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">);</font>
+        table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">4</font><font color="#990000">,</font> <font color="#FF0000">"Admin 3"</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testInsertRows</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <font color="#009900">boolean</font> inserted<font color="#990000">;</font>
+        inserted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">10</font><font color="#990000">,</font> <font color="#FF0000">"User 1"</font><font color="#990000">,</font> <font color="#993399">5.0</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>inserted<font color="#990000">);</font>
+        inserted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">11</font><font color="#990000">,</font> <font color="#FF0000">"User 2"</font><font color="#990000">,</font> <font color="#993399">2.0</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>inserted<font color="#990000">);</font>
+        inserted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">12</font><font color="#990000">,</font> <font color="#FF0000">"Admin 1"</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>inserted<font color="#990000">);</font>
+        inserted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#FF0000">"Admin 2"</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">);</font>
+        <b><font color="#000000">assertFalse</font></b><font color="#990000">(</font>inserted<font color="#990000">);</font>
+        inserted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">13</font><font color="#990000">,</font> <font color="#FF0000">"Admin 2"</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>inserted<font color="#990000">);</font>
+        inserted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">insertRow</font></b><font color="#990000">(</font><font color="#993399">14</font><font color="#990000">,</font> <font color="#FF0000">"Admin 3"</font><font color="#990000">,</font> <font color="#993399">1</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>inserted<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testDeleteRow</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <font color="#009900">boolean</font> deleted<font color="#990000">;</font>
+        deleted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">deleteRow</font></b><font color="#990000">(</font><font color="#993399">100</font><font color="#990000">);</font>
+        <b><font color="#000000">assertFalse</font></b><font color="#990000">(</font>deleted<font color="#990000">);</font>
+        deleted <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">deleteRow</font></b><font color="#990000">(</font><font color="#993399">3</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>deleted<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testUpdateRow</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <font color="#009900">boolean</font> updated<font color="#990000">;</font>
+        updated <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">,</font> <font color="#993399">2</font><font color="#990000">,</font> <font color="#FF0000">"Admin_U 1"</font><font color="#990000">,</font> <font color="#993399">10</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>updated<font color="#990000">);</font>
+        updated <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#FF0000">"User_U 2"</font><font color="#990000">,</font> <font color="#993399">2.5</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>updated<font color="#990000">);</font>
+        updated <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#FF0000">"User_U 1"</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>updated<font color="#990000">);</font>
+        updated <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">12.2</font><font color="#990000">);</font>
+        <b><font color="#000000">assertTrue</font></b><font color="#990000">(</font>updated<font color="#990000">);</font>
+
+        updated <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">updateRow</font></b><font color="#990000">(</font><font color="#993399">101</font><font color="#990000">,</font> 0d<font color="#990000">);</font>
+        <b><font color="#000000">assertFalse</font></b><font color="#990000">(</font>updated<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testSelectRow</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> entry <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">selectRow</font></b><font color="#990000">(</font><font color="#993399">4</font><font color="#990000">);</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>entry<font color="#990000">,</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font><b><font color="#000000">SimpleEntry</font></b><font color="#990000">(</font><font color="#FF0000">"Admin 3"</font><font color="#990000">,</font> 1d<font color="#990000">));</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">testCountRows</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        <font color="#009900">long</font> tableSize <font color="#990000">=</font> table<font color="#990000">.</font><b><font color="#000000">countRows</font></b><font color="#990000">();</font>
+        <b><font color="#000000">assertEquals</font></b><font color="#990000">(</font>tableSize<font color="#990000">,</font> <font color="#993399">5</font><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">tearDown</font></b><font color="#990000">()</font> <b><font color="#0000FF">throws</font></b> Exception <font color="#FF0000">{</font>
+        table <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

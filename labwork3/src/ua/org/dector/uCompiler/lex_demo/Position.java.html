@@ -1,0 +1,27 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector (</font></i><u><font color="#0000FF">dector9@gmail.com</font></u><i><font color="#9A1900">)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <font color="#008080">enum</font> Position <font color="#FF0000">{</font>
+    START<font color="#990000">,</font> FINISHED<font color="#990000">,</font>
+
+    ACCUMULATE_IDENTIFIER<font color="#990000">,</font> ACCUMULATE_STRING<font color="#990000">,</font> ACCUMULATE_OPERATOR<font color="#990000">,</font> ACCUMULATE_DECIMAL_NUMBER<font color="#990000">,</font>
+    ACCUMULATE_REAL_NUMBER<font color="#990000">,</font>
+
+    NEW_IDENTIFIER_TOKEN<font color="#990000">,</font> NEW_KEYWORD_TOKEN<font color="#990000">,</font> NEW_STRING_TOKEN<font color="#990000">,</font> NEW_OPERATOR_TOKEN<font color="#990000">,</font> NEW_DELIMITER_TOKEN<font color="#990000">,</font>
+    NEW_DECIMAL_NUMBER_TOKEN<font color="#990000">,</font> NEW_REAL_NUMBER_TOKEN<font color="#990000">,</font>
+
+    CHECK_KEYWORD<font color="#990000">,</font> CHECK_OPERATOR<font color="#990000">,</font> SUCCESS_CHECK<font color="#990000">,</font> DETECT_STRING<font color="#990000">,</font>
+
+    IDENTIFIER_ERROR<font color="#990000">,</font> OPERATOR_ERROR<font color="#990000">,</font> DECIMAL_NUMBER_ERROR<font color="#990000">,</font> REAL_NUMBER_ERROR<font color="#990000">,</font>
+
+    UNDEFINED_INPUT_ERROR<font color="#990000">,</font> UNEXPECTED_END_OF_FILE_ERROR<font color="#990000">,</font>
+
+    IO_EXCEPTION
+<font color="#FF0000">}</font>
+</tt></pre>

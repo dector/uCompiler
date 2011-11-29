@@ -1,0 +1,121 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>SymbolFactory<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>SymbolType<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>LinkedHashMap<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>Map<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector (</font></i><u><font color="#0000FF">dector9@gmail.com</font></u><i><font color="#9A1900">)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">AbstractCSymbolFactory</font> <b><font color="#0000FF">implements</font></b> SymbolFactory <font color="#FF0000">{</font>
+    <b><font color="#0000FF">static</font></b> <font color="#008080">Map&lt;Character, SymbolType&gt;</font> charCache<font color="#990000">;</font>
+
+    <b><font color="#0000FF">static</font></b> <font color="#FF0000">{</font>
+        charCache <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> LinkedHashMap<font color="#990000">&lt;</font>Character<font color="#990000">,</font> SymbolType<font color="#990000">&gt;();</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'A'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'B'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'C'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'D'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'E'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'F'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'G'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'H'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'I'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'J'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'K'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'L'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'M'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'N'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'O'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'P'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'Q'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'R'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'S'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'T'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'U'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'V'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'W'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'X'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'Y'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'Z'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'a'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'b'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'c'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'d'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'e'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'f'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'g'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'h'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'i'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'j'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'k'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'l'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'m'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'n'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'o'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'p'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'q'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'r'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'s'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'t'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'u'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'v'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'w'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'x'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'y'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'z'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>LETTER<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'0'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'1'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'2'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'3'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'4'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'5'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'6'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'7'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'8'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'9'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DIGIT<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'{'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'}'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'('</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">')'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'['</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">']'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">';'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DELIMITER<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'-'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>OPERATOR<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'='</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>OPERATOR<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'.'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>DECIMAL_DELIMITER<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'</font><font color="#CC33CC">\'</font><font color="#FF0000">'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>STRING_TAG<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'</font><font color="#CC33CC">\'</font><font color="#FF0000">'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>STRING_TAG<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'"'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>STRING_TAG<font color="#990000">);</font>
+
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">' '</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>IGNORE<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'</font><font color="#CC33CC">\n</font><font color="#FF0000">'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>IGNORE<font color="#990000">);</font>
+        charCache<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><font color="#FF0000">'</font><font color="#CC33CC">\t</font><font color="#FF0000">'</font><font color="#990000">,</font> SymbolType<font color="#990000">.</font>IGNORE<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <b><font color="#000000">AbstractCSymbolFactory</font></b><font color="#990000">()</font> <font color="#FF0000">{}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#008080">SymbolType</font> <b><font color="#000000">getType</font></b><font color="#990000">(</font><font color="#009900">char</font> symbol<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#008080">SymbolType</font> type <font color="#990000">=</font> <b><font color="#0000FF">null</font></b><font color="#990000">;</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>charCache<font color="#990000">.</font><b><font color="#000000">containsKey</font></b><font color="#990000">(</font>symbol<font color="#990000">))</font> <font color="#FF0000">{</font>
+            type <font color="#990000">=</font> charCache<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>symbol<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+
+        <b><font color="#0000FF">return</font></b> type<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

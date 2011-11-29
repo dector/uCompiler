@@ -1,0 +1,119 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>ucompiler<font color="#990000">.</font>store<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>HashMap<font color="#990000">;</font>
+<b><font color="#000080">import</font></b> java<font color="#990000">.</font>util<font color="#990000">.</font>Map<font color="#990000">;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * Data structure for users which represents one table raw</font></i>
+<i><font color="#9A1900"> *</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">TableRow</font> <font color="#FF0000">{</font>
+    <b><font color="#0000FF">private</font></b> Map<font color="#990000">.</font><font color="#008080">Entry&lt;Long, Map.Entry&lt;String, Double&gt;&gt;</font> row<font color="#990000">;</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Create new instance</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> row representation of row in such complicated structure</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#000000">TableRow</font></b><font color="#990000">(</font>Map<font color="#990000">.</font><font color="#008080">Entry&lt;Long, Map.Entry&lt;String, Double&gt;&gt;</font> row<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>row <font color="#990000">=</font> row<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Returns ID of this row record</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> ID value</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#009900">long</font> <b><font color="#000000">getId</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> row<font color="#990000">.</font><b><font color="#000000">getKey</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Returns NAME of this row record</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> NAME value</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#008080">String</font> <b><font color="#000000">getName</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> row<font color="#990000">.</font><b><font color="#000000">getValue</font></b><font color="#990000">().</font><b><font color="#000000">getKey</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Returns VALUE of this row record</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> VALUE value</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#008080">Double</font> <b><font color="#000000">getValue</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> row<font color="#990000">.</font><b><font color="#000000">getValue</font></b><font color="#990000">().</font><b><font color="#000000">getValue</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Create new representation of row record</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id    record ID</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> entry pair of </font></i><b><font color="#0000FF">&lt;NAME</font></b>, <font color="#009900">VALUE</font><b><font color="#0000FF">&gt;</font></b>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> new instance of row representation</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#008080">TableRow</font> <b><font color="#000000">newInstance</font></b><font color="#990000">(</font><font color="#008080">Long</font> id<font color="#990000">,</font> Map<font color="#990000">.</font><font color="#008080">Entry&lt;String, Double&gt;</font> entry<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">new</font></b> <b><font color="#000000">TableRow</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>Long<font color="#990000">,</font> Map<font color="#990000">.</font>Entry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;&gt;(</font>id<font color="#990000">,</font> entry<font color="#990000">));</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     *Create new representation of row record</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> id    record ID</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> name  NAME value</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@param</font><i><font color="#9A1900"> value VALUE value</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900">  new instance of row representation</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <b><font color="#0000FF">static</font></b> <font color="#008080">TableRow</font> <b><font color="#000000">newInstance</font></b><font color="#990000">(</font><font color="#008080">Long</font> id<font color="#990000">,</font> <font color="#008080">String</font> name<font color="#990000">,</font> <font color="#008080">Double</font> value<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">return</font></b> <b><font color="#000000">newInstance</font></b><font color="#990000">(</font>id<font color="#990000">,</font> <b><font color="#0000FF">new</font></b> HashMap<font color="#990000">.</font>SimpleEntry<font color="#990000">&lt;</font>String<font color="#990000">,</font> Double<font color="#990000">&gt;(</font>name<font color="#990000">,</font> value<font color="#990000">));</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900">     * Generate String value of this record</font></i>
+<i><font color="#9A1900">     *</font></i>
+<i><font color="#9A1900">     * </font></i><font color="#009900">@return</font><i><font color="#9A1900"> string row representation</font></i>
+<i><font color="#9A1900">     */</font></i>
+    <b><font color="#0000FF">public</font></b> <font color="#008080">String</font> <b><font color="#000000">toString</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">StringBuilder</font> sb <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">StringBuilder</font></b><font color="#990000">();</font>
+
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><font color="#FF0000">"TableRow["</font><font color="#990000">);</font>
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><b><font color="#000000">getId</font></b><font color="#990000">());</font>
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><font color="#FF0000">"] = &lt;"</font><font color="#990000">);</font>
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><b><font color="#000000">getName</font></b><font color="#990000">());</font>
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><font color="#FF0000">", "</font><font color="#990000">);</font>
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><b><font color="#000000">getValue</font></b><font color="#990000">());</font>
+        sb<font color="#990000">.</font><b><font color="#000000">append</font></b><font color="#990000">(</font><font color="#FF0000">"&gt;"</font><font color="#990000">);</font>
+
+        <b><font color="#0000FF">return</font></b> sb<font color="#990000">.</font><b><font color="#000000">toString</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+<i><font color="#9A1900">//    public int compareTo(TableRow row) {</font></i>
+<i><font color="#9A1900">//        if (this.getId() &gt; row.getId()) {</font></i>
+<i><font color="#9A1900">//            return 1;</font></i>
+<i><font color="#9A1900">//        } else if (this.getId() &lt; row.getId()) {</font></i>
+<i><font color="#9A1900">//            return -1;</font></i>
+<i><font color="#9A1900">//        } else {</font></i>
+<i><font color="#9A1900">//            return 0;</font></i>
+<i><font color="#9A1900">//        }</font></i>
+<i><font color="#9A1900">//    }</font></i>
+
+    @Override
+    <b><font color="#0000FF">public</font></b> <font color="#009900">boolean</font> <b><font color="#000000">equals</font></b><font color="#990000">(</font><font color="#008080">Object</font> obj<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <font color="#008080">TableRow</font> row <font color="#990000">=</font> <font color="#990000">(</font>TableRow<font color="#990000">)</font>obj<font color="#990000">;</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font><b><font color="#000000">getId</font></b><font color="#990000">()</font> <font color="#990000">==</font> row<font color="#990000">.</font><b><font color="#000000">getId</font></b><font color="#990000">()</font>
+                <font color="#990000">&amp;&amp;</font> <b><font color="#000000">getName</font></b><font color="#990000">().</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>row<font color="#990000">.</font><b><font color="#000000">getName</font></b><font color="#990000">())</font>
+                <font color="#990000">&amp;&amp;</font> <b><font color="#000000">getValue</font></b><font color="#990000">().</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>row<font color="#990000">.</font><b><font color="#000000">getValue</font></b><font color="#990000">()))</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">return</font></b> <b><font color="#0000FF">false</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>

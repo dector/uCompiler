@@ -8,51 +8,48 @@ import java.util.List;
  */
 public class Query {
     private QueryType type;
-    private List<QueryFilter> filtersList;
+    private QueryFilterField field;
+    private QueryFilterCondition condition;
+    private String value;
 
-    public Query() {
-        filtersList = new ArrayList<QueryFilter>();
+    public Query(QueryType type, QueryFilterField field, QueryFilterCondition condition, String value) {
+        this.type = type;
+        this.field = field;
+        this.condition = condition;
+        this.value = value;
     }
 
-    public void setType(QueryType type) {
-        this.type = type;
+    public Query(QueryType type, QueryFilterField field, QueryFilterCondition condition, long value) {
+        this(type, field, condition, String.valueOf(value));
+    }
+
+    public Query(QueryType type, QueryFilterField field, QueryFilterCondition condition, double value) {
+        this(type, field, condition, String.valueOf(value));
     }
 
     public QueryType getType() {
         return type;
     }
 
-    public boolean containsFilter(QueryFilter filter) {
-        return filtersList.contains(filter);
+    public QueryFilterField getField() {
+        return field;
     }
 
-    public int countFilters() {
-        return filtersList.size();
+    public QueryFilterCondition getCondition() {
+        return condition;
     }
 
-    public boolean addFilter(QueryFilter filter) {
-        boolean added = false;
-
-        if (! containsFilter(filter)) {
-            filtersList.add(filter);
-            added = true;
-        }
-
-        return added;
-    }
-
-    public boolean addFilter(QueryFilterField field, QueryFilterCondition condition, QueryFilterValue value) {
-        return addFilter(new QueryFilter(field, condition, value));
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
-        return "Query{" +
-                "type=" + type +
-                ", filtersList=" + filtersList +
-                '}';
-        //todo: I'm feeling so empty. Implement me!
-    }
+        StringBuilder sb = new StringBuilder();
 
-//todo: I'm feeling so empty. Implement me!
+        sb.append("Query{ type=").append(type).append(", field=").append(field).append(", condition=").append(condition);
+        sb.append(", value='").append(value).append("'}");
+
+        return sb.toString();
+    }
 }

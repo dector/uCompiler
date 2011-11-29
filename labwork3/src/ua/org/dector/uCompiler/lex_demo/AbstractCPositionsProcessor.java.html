@@ -1,0 +1,324 @@
+<!-- Generator: GNU source-highlight 3.1.4
+by Lorenzo Bettini
+http://www.lorenzobettini.it
+http://www.gnu.org/software/src-highlite -->
+<pre><tt><b><font color="#000080">package</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">;</font>
+
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.*;</font>
+<b><font color="#000080">import</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_analyser<font color="#990000">.</font>errors<font color="#990000">.*;</font>
+
+<b><font color="#000080">import</font></b> <b><font color="#0000FF">static</font></b> ua<font color="#990000">.</font>org<font color="#990000">.</font>dector<font color="#990000">.</font>uCompiler<font color="#990000">.</font>lex_demo<font color="#990000">.</font>Position<font color="#990000">.*;</font>
+
+<i><font color="#9A1900">/**</font></i>
+<i><font color="#9A1900"> * </font></i><font color="#009900">@author</font><i><font color="#9A1900"> dector (</font></i><u><font color="#0000FF">dector9@gmail.com</font></u><i><font color="#9A1900">)</font></i>
+<i><font color="#9A1900"> */</font></i>
+<b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">AbstractCPositionsProcessor</font> <b><font color="#0000FF">implements</font></b> PositionsProcessor <font color="#FF0000">{</font>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">LexicAnalyserState</font> state<font color="#990000">;</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#008080">TokensTable</font> keywordsTable<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">TokensTable</font> operatorsTable<font color="#990000">;</font>
+    <b><font color="#0000FF">private</font></b> <font color="#008080">TokensTable</font> delimitersTable<font color="#990000">;</font>
+
+    <b><font color="#0000FF">public</font></b> <b><font color="#000000">AbstractCPositionsProcessor</font></b><font color="#990000">(</font><font color="#008080">TablesHolder</font> holder<font color="#990000">)</font> <font color="#FF0000">{</font>
+        keywordsTable <font color="#990000">=</font> holder<font color="#990000">.</font><b><font color="#000000">getKeywordsTable</font></b><font color="#990000">();</font>
+        operatorsTable <font color="#990000">=</font> holder<font color="#990000">.</font><b><font color="#000000">getOperatorsTable</font></b><font color="#990000">();</font>
+        delimitersTable <font color="#990000">=</font> holder<font color="#990000">.</font><b><font color="#000000">getDelimitersTable</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setState</font></b><font color="#990000">(</font><font color="#008080">LexicAnalyserState</font> state<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">this</font></b><font color="#990000">.</font>state <font color="#990000">=</font> state<font color="#990000">;</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setIOExceptionPosition</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>IO_EXCEPTION<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">setFinalCheckPosition</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>SUCCESS_CHECK<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">public</font></b> <font color="#009900">void</font> <b><font color="#000000">process</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>state<font color="#990000">.</font><b><font color="#000000">getCurrentPosition</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> START<font color="#990000">:</font> <b><font color="#000000">doStart</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> ACCUMULATE_IDENTIFIER<font color="#990000">:</font> <b><font color="#000000">accumulateIdentifier</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> ACCUMULATE_DECIMAL_NUMBER<font color="#990000">:</font> <b><font color="#000000">accumulateDecimal</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> ACCUMULATE_REAL_NUMBER<font color="#990000">:</font> <b><font color="#000000">accumulateReal</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> ACCUMULATE_OPERATOR<font color="#990000">:</font> <b><font color="#000000">accumulateOperator</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> ACCUMULATE_STRING<font color="#990000">:</font> <b><font color="#000000">accumulateString</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> CHECK_OPERATOR<font color="#990000">:</font> <b><font color="#000000">checkOperator</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> CHECK_KEYWORD<font color="#990000">:</font> <b><font color="#000000">checkKeyword</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> NEW_IDENTIFIER_TOKEN<font color="#990000">:</font> <b><font color="#000000">createIdentifier</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> NEW_KEYWORD_TOKEN<font color="#990000">:</font> <b><font color="#000000">createKeyword</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> NEW_DECIMAL_NUMBER_TOKEN<font color="#990000">:</font> <b><font color="#000000">createDecimal</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> NEW_REAL_NUMBER_TOKEN<font color="#990000">:</font> <b><font color="#000000">createReal</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> NEW_DELIMITER_TOKEN<font color="#990000">:</font> <b><font color="#000000">createDelimiter</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> NEW_OPERATOR_TOKEN<font color="#990000">:</font> <b><font color="#000000">createOperator</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> NEW_STRING_TOKEN<font color="#990000">:</font> <b><font color="#000000">createString</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> FINISHED<font color="#990000">:</font> <b><font color="#000000">finished</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> SUCCESS_CHECK<font color="#990000">:</font> <b><font color="#000000">checkSuccess</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> DETECT_STRING<font color="#990000">:</font> <b><font color="#000000">detectString</font></b><font color="#990000">(</font>in<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> IO_EXCEPTION<font color="#990000">:</font> <b><font color="#000000">ioException</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> IDENTIFIER_ERROR<font color="#990000">:</font> <b><font color="#000000">identifierError</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> DECIMAL_NUMBER_ERROR<font color="#990000">:</font> <b><font color="#000000">decimalError</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> REAL_NUMBER_ERROR<font color="#990000">:</font> <b><font color="#000000">realError</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> OPERATOR_ERROR<font color="#990000">:</font> <b><font color="#000000">operatorError</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> UNEXPECTED_END_OF_FILE_ERROR<font color="#990000">:</font> <b><font color="#000000">undexpectedEndOfFile</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> UNDEFINED_INPUT_ERROR<font color="#990000">:</font> <b><font color="#000000">undefinedInput</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font><font color="#008080">Position</font> p<font color="#990000">)</font> <font color="#FF0000">{</font>
+        state<font color="#990000">.</font><b><font color="#000000">setCurrentPosition</font></b><font color="#990000">(</font>p<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">processed</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        state<font color="#990000">.</font><b><font color="#000000">setBufferProcessed</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">);</font>
+        state<font color="#990000">.</font><b><font color="#000000">incrementPositionIndex</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// Start position</font></i>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">doStart</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        state<font color="#990000">.</font><b><font color="#000000">setBufferProcessed</font></b><font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">);</font>
+
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>in<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> IGNORE<font color="#990000">:</font> <b><font color="#000000">processed</font></b><font color="#990000">();</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> LETTER<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>ACCUMULATE_IDENTIFIER<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> DIGIT<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>ACCUMULATE_DECIMAL_NUMBER<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> OPERATOR<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>ACCUMULATE_OPERATOR<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> DELIMITER<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_DELIMITER_TOKEN<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+<i><font color="#9A1900">//            case STRING_TAG: setPosition(ACCUMULATE_STRING); break;</font></i>
+            <b><font color="#0000FF">case</font></b> STRING_TAG<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>DETECT_STRING<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">default</font></b><font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>UNDEFINED_INPUT_ERROR<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+
+<i><font color="#9A1900">//        processed();</font></i>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// =================== ACCUMULATE POSITIONS ====================</font></i>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">accumulateIdentifier</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>in<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> LETTER<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> DIGIT<font color="#990000">:</font> <font color="#FF0000">{</font>
+                state<font color="#990000">.</font><b><font color="#000000">accumulate</font></b><font color="#990000">();</font>
+                <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+            <font color="#FF0000">}</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> IGNORE<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> DELIMITER<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> OPERATOR<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>CHECK_KEYWORD<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> DECIMAL_DELIMITER<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>IDENTIFIER_ERROR<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">accumulateDecimal</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>in<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> DIGIT<font color="#990000">:</font> <font color="#FF0000">{</font>
+                state<font color="#990000">.</font><b><font color="#000000">accumulate</font></b><font color="#990000">();</font>
+                <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+            <font color="#FF0000">}</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> IGNORE<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> DELIMITER<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> OPERATOR<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_DECIMAL_NUMBER_TOKEN<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">case</font></b> DECIMAL_DELIMITER<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>ACCUMULATE_REAL_NUMBER<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> LETTER<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>DECIMAL_NUMBER_ERROR<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">accumulateReal</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>in<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> DECIMAL_DELIMITER<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> DIGIT<font color="#990000">:</font> <font color="#FF0000">{</font>
+                state<font color="#990000">.</font><b><font color="#000000">accumulate</font></b><font color="#990000">();</font>
+                <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+            <font color="#FF0000">}</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+
+            <b><font color="#0000FF">case</font></b> IGNORE<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> DELIMITER<font color="#990000">:</font>
+            <b><font color="#0000FF">case</font></b> OPERATOR<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_REAL_NUMBER_TOKEN<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">default</font></b><font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>REAL_NUMBER_ERROR<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">accumulateOperator</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>in<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> OPERATOR<font color="#990000">:</font> <font color="#FF0000">{</font>
+                state<font color="#990000">.</font><b><font color="#000000">accumulate</font></b><font color="#990000">();</font>
+                <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+            <font color="#FF0000">}</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">default</font></b><font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>CHECK_OPERATOR<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">accumulateString</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">switch</font></b> <font color="#990000">(</font>in<font color="#990000">)</font> <font color="#FF0000">{</font>
+            <b><font color="#0000FF">case</font></b> STRING_TAG<font color="#990000">:</font> <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_STRING_TOKEN<font color="#990000">);</font> <b><font color="#0000FF">break</font></b><font color="#990000">;</font>
+            <b><font color="#0000FF">default</font></b><font color="#990000">:</font> state<font color="#990000">.</font><b><font color="#000000">accumulate</font></b><font color="#990000">();</font>
+        <font color="#FF0000">}</font>
+
+        <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">detectString</font></b><font color="#990000">(</font><font color="#008080">SymbolType</font> in<font color="#990000">)</font> <font color="#FF0000">{</font>
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>ACCUMULATE_STRING<font color="#990000">);</font>
+
+        <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">checkKeyword</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> s <font color="#990000">=</font> state<font color="#990000">.</font><b><font color="#000000">getAccumulator</font></b><font color="#990000">();</font>
+
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>keywordsTable<font color="#990000">.</font><b><font color="#000000">hasToken</font></b><font color="#990000">(</font>s<font color="#990000">))</font> <font color="#FF0000">{</font>
+            <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_KEYWORD_TOKEN<font color="#990000">);</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+            <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_IDENTIFIER_TOKEN<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">checkOperator</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> currentOperator <font color="#990000">=</font> state<font color="#990000">.</font><b><font color="#000000">getAccumulator</font></b><font color="#990000">();</font>
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>operatorsTable<font color="#990000">.</font><b><font color="#000000">hasToken</font></b><font color="#990000">(</font>currentOperator<font color="#990000">))</font> <font color="#FF0000">{</font>
+            <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>NEW_OPERATOR_TOKEN<font color="#990000">);</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+            <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>OPERATOR_ERROR<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+
+<i><font color="#9A1900">//        processed();</font></i>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// ============================== CREATE POSITIONS ==============================</font></i>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createIdentifier</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> identifier <font color="#990000">=</font> state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">();</font>
+
+        <font color="#008080">Token</font> t <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>IDENTIFIER<font color="#990000">,</font> identifier<font color="#990000">);</font>
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font>t<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createKeyword</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> keyword <font color="#990000">=</font> state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">();</font>
+
+        <font color="#008080">Token</font> t <font color="#990000">=</font> keywordsTable<font color="#990000">.</font><b><font color="#000000">getToken</font></b><font color="#990000">(</font>keyword<font color="#990000">);</font>
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font>t<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createDecimal</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> number <font color="#990000">=</font> String<font color="#990000">.</font><b><font color="#000000">valueOf</font></b><font color="#990000">(</font>state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">());</font>
+
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>DECIMAL_NUMBER<font color="#990000">,</font> number<font color="#990000">));</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+<i><font color="#9A1900">//        processed();</font></i>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createReal</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> number <font color="#990000">=</font> String<font color="#990000">.</font><b><font color="#000000">valueOf</font></b><font color="#990000">(</font>state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">());</font>
+
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>REAL_NUMBER<font color="#990000">,</font> number<font color="#990000">));</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+<i><font color="#9A1900">//        processed();</font></i>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createOperator</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">Token</font> t <font color="#990000">=</font> operatorsTable<font color="#990000">.</font><b><font color="#000000">getToken</font></b><font color="#990000">(</font>state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font>t<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+<i><font color="#9A1900">//        processed();</font></i>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createDelimiter</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        state<font color="#990000">.</font><b><font color="#000000">accumulate</font></b><font color="#990000">();</font>
+        <font color="#008080">Token</font> t <font color="#990000">=</font> delimitersTable<font color="#990000">.</font><b><font color="#000000">getToken</font></b><font color="#990000">(</font>state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font>t<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+        <b><font color="#000000">processed</font></b><font color="#990000">();</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">createString</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">String</font> string <font color="#990000">=</font> state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">();</font>
+        state<font color="#990000">.</font><b><font color="#000000">addResult</font></b><font color="#990000">(</font><b><font color="#0000FF">new</font></b> <b><font color="#000000">Token</font></b><font color="#990000">(</font>TokenType<font color="#990000">.</font>STRING<font color="#990000">,</font> string<font color="#990000">));</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>START<font color="#990000">);</font>
+<i><font color="#9A1900">//        processed();</font></i>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">checkSuccess</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>state<font color="#990000">.</font><b><font color="#000000">clearAccumulator</font></b><font color="#990000">().</font><b><font color="#000000">isEmpty</font></b><font color="#990000">())</font> <font color="#FF0000">{</font>
+            state<font color="#990000">.</font><b><font color="#000000">setSuccess</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">);</font>
+            <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+        <font color="#FF0000">}</font> <b><font color="#0000FF">else</font></b> <font color="#FF0000">{</font>
+            <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>UNEXPECTED_END_OF_FILE_ERROR<font color="#990000">);</font>
+        <font color="#FF0000">}</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">finished</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        state<font color="#990000">.</font><b><font color="#000000">setFinished</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <i><font color="#9A1900">// ============================== ERROR POSITIONS ===============================</font></i>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">identifierError</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">IdentifierError</font></b><font color="#990000">(</font><font color="#FF0000">"Wrong identifier"</font><font color="#990000">,</font> state<font color="#990000">.</font><b><font color="#000000">getPositionIndex</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">operatorError</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">OperatorError</font></b><font color="#990000">(</font><font color="#FF0000">"Operator not found"</font><font color="#990000">,</font> state<font color="#990000">.</font><b><font color="#000000">getPositionIndex</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">decimalError</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">DecimalError</font></b><font color="#990000">(</font><font color="#FF0000">"Wrong decimal number"</font><font color="#990000">,</font> state<font color="#990000">.</font><b><font color="#000000">getPositionIndex</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">realError</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">RealError</font></b><font color="#990000">(</font><font color="#FF0000">"Wrong real number"</font><font color="#990000">,</font> state<font color="#990000">.</font><b><font color="#000000">getPositionIndex</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">undefinedInput</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">UndefinedInputError</font></b><font color="#990000">(</font><font color="#FF0000">"Undefined symbol input"</font><font color="#990000">,</font> state<font color="#990000">.</font><b><font color="#000000">getPositionIndex</font></b><font color="#990000">());</font>
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">ioException</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">UndefinedInputError</font></b><font color="#990000">(</font><font color="#FF0000">"IOException"</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">);</font>
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+
+    <b><font color="#0000FF">private</font></b> <font color="#009900">void</font> <b><font color="#000000">undexpectedEndOfFile</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
+        <font color="#008080">LexicParseError</font> error <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">UndexpectedEndOfFileError</font></b><font color="#990000">(</font><font color="#FF0000">"Undexpected End Of File"</font><font color="#990000">,</font> state<font color="#990000">.</font><b><font color="#000000">getPositionIndex</font></b><font color="#990000">());</font>
+
+        state<font color="#990000">.</font><b><font color="#000000">setError</font></b><font color="#990000">(</font>error<font color="#990000">);</font>
+
+        <b><font color="#000000">setPosition</font></b><font color="#990000">(</font>FINISHED<font color="#990000">);</font>
+    <font color="#FF0000">}</font>
+<font color="#FF0000">}</font>
+</tt></pre>
